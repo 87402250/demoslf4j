@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+                <!-- log formatting : 18:16:26.886 [main] TRACE com.zzw.demoslf4j.App.main [17] ( %M [%L] method line )-->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M [%L] - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+        <file>c:/tmp/demoslf4j/output.log</file>
+        <encoder>
+            <pattern>%d [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="fileAppender1" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>c:/tmp/demoslf4j/tests.log</file>
+        <maxHistory>30</maxHistory>
+        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+            <fileNamePattern>c:/tmp/demoslf4j/tests-%i.log.zip</fileNamePattern>
+        </rollingPolicy>
+        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+            <maxFileSize>1MB</maxFileSize>
+        </triggeringPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 没有设置addtivity，默认为true，将此loger的打印信息向上级传递； -->
+    <logger name="com.zzw.demoslf4j" level="trace" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <logger name="com.zzw.demoslf4j.demo1" level="info" additivity="false">
+        <appender-ref ref="fileAppender1" />
+    </logger>
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="fileAppender" />
+    </root>
+</configuration>
